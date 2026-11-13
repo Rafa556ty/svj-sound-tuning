@@ -140,8 +140,10 @@ export class SvjEngine {
       if (e === "shift") {
         // Real upshift: duck the gearless loop while the recorded ignition cut + bang plays.
         this.play("shift", t, 1, clamp(rate * 1.1, 0.85, 1.25));
+        // Dip and recovery are scheduled on the audio clock so a dropped frame never leaves a gap.
         this.pullGain.gain.cancelScheduledValues(t);
         this.pullGain.gain.setTargetAtTime(0.04, t, 0.015);
+        this.pullGain.gain.setTargetAtTime(1, t + 0.2, 0.05);
         this.duckUntil = t + 0.3;
       } else if (e === "blip") {
         this.play("blip", t, 0.75, clamp(0.85 + (0.25 * rpm) / REDLINE, 0.85, 1.1));
