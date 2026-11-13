@@ -50,3 +50,5 @@ use the editor.
 - Newer playable cars' wheels are found by material name (`isNewCarWheel` in models3d.ts) and split per corner; front wheels steer via pure `steerAngle` in wheels.ts, paint parts per car in car-paint.ts `PART_MATERIALS`.
 - Playable cars' lamps come from their own GLB lens materials (`src/game/player-lights.ts`), split front/rear at the car's middle in render3d `setupRealLamps`; halos and beams are placed from those lens boxes, so lights stay on the real lamp positions.
 - Each non-Revuelto playable car plays its own real engine recording from `src/game/player-sounds.ts` (one looped sample, pitch by speed); credits in `public/game-assets/CREDITS.md`.
+- The SVJ engine (`src/game/svj-audio.ts`) uses a pitch-flattened gearless loop cut from its real recording plus real one-shot slices fired on game events (upshift, lift-off, brake, downshift); gears are heard only when the game shifts, never baked into a loop.
+- Media pointers imported from another project must be re-uploaded with `lovable-assets` into this project; foreign `/__l5e/assets-v1` pointers 404 here.

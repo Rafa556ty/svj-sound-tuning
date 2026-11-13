@@ -100,7 +100,8 @@ export class SvjEngine {
   private play(name: "shift" | "lift" | "brake" | "blip", t: number, vol: number, rate = 1) {
     const b = this.bufs[name];
     if (!b) return;
-    this.stopOneShot(t, 0.04);
+    const layer = name === "blip"; // a downshift blip sits on top of the lift/brake crackle
+    if (!layer) this.stopOneShot(t, 0.04);
     const src = this.ctx.createBufferSource();
     src.buffer = b;
     src.playbackRate.value = rate;
@@ -110,7 +111,7 @@ export class SvjEngine {
     gain.connect(this.bus);
     src.start(t);
     src.onended = () => { gain.disconnect(); if (this.oneShot?.src === src) this.oneShot = null; };
-    this.oneShot = { src, gain };
+    if (!layer) this.oneShot = { src, gain };
   }
 
   private stopOneShot(t: number, tau: number) {
